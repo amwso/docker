@@ -5,6 +5,7 @@ LOG_FILE_PATH=/data/log
 MYSQL_DATA_PATH=/data/mysql
 WWW_DATA_PATH=/data/www
 CONF_PATH=/data/conf
+TEMP_PATH=/data/tmp
 
 mysql_init () {
 	MYSQL_PASSWORD=`pwgen -c -n -1 12`
@@ -26,8 +27,8 @@ check_dir () {
 	[[ ! -d $LOG_FILE_PATH/php-fpm ]] && mkdir -p $LOG_FILE_PATH/php-fpm
 	[[ ! -d $LOG_FILE_PATH/mysql ]] && mkdir -p $LOG_FILE_PATH/mysql
 	[[ ! -d $CONF_PATH ]] && mkdir -p $CONF_PATH
-
 	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
+	[[ ! -d $TEMP_PATH ]] && mkdir -p $TEMP_PATH && chmod 1777 $TEMP_PATH
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
 }
 
@@ -35,7 +36,7 @@ check_sys_user () {
 	USER_ID=5000
 	for USER in user_mysql user_web user_app ; do
 		if  id -u $USER >/dev/null 2>&1  ; then
-			# notice user exists
+			# TODO: notice user exists
 			true
 		else
 			groupadd -g $USER_ID -r $USER
@@ -49,6 +50,7 @@ update_config_file () {
 	/bin/cp /data/conf/supervisor_service.conf /etc/supervisor/conf.d/
 	/bin/cp /data/conf/my.cnf /etc/mysql/my.cnf
 	ln -s /data/mysql/mysqld.sock /var/run/mysqld/mysqld.sock
+	echo "$(ip addr sh eth0 | grep -o 'inet \([0-9]\+\.\)\+[0-9]\+' | grep -o '\([0-9]\+\.\)\+[0-9]\+')" > $LOG_FILE_PATH/ip.conf
 }
 
 check_sys_user
