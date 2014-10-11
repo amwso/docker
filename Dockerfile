@@ -13,7 +13,9 @@ RUN dpkg-divert --local --rename --add /sbin/initctl ; \
  sed -i "s/archive.ubuntu.com/mirrors.sudu.cn/g" /etc/apt/sources.list ; \
  sed -i "s/archive.ubuntu.com/mirrors.sudu.cn/g" /etc/apt/sources.list.d/proposed.list ; \
  apt-get update ; \
- apt-get -y upgrade
+ apt-get -y upgrade ; \
+ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime ; \
+ sed -i 's/UTC=yes/UTC=no/' /etc/default/rcS
 
 RUN apt-get -y install nginx-extras php5-cli php5-curl php5-fpm php5-json php5-mcrypt php5-mysql php5-sqlite php5-xmlrpc php5-xsl php-apc curl git unzip pwgen supervisor mysql-server mysql-client ; \
  apt-get clean
