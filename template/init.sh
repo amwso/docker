@@ -50,7 +50,6 @@ update_config_file () {
 	/bin/cp /data/conf/supervisor_service.conf /etc/supervisor/conf.d/
 	/bin/cp /data/conf/my.cnf /etc/mysql/my.cnf
 	ln -s /data/mysql/mysqld.sock /var/run/mysqld/mysqld.sock
-	echo "$(ip addr sh eth0 | grep -o 'inet \([0-9]\+\.\)\+[0-9]\+' | grep -o '\([0-9]\+\.\)\+[0-9]\+')" > $LOG_FILE_PATH/ip.conf
 }
 
 check_sys_user
