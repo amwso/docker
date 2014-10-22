@@ -57,8 +57,11 @@ check_sys_user
 check_dir
 update_config_file
 
-
-
-
-
-/usr/bin/supervisord -n
+# Forward SIGTERM to supervisord process
+_term() {
+    kill -TERM $child 2>/dev/null
+}
+trap _term 15
+exec /usr/bin/supervisord -n &
+child=$!
+wait $child
