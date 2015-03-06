@@ -1,4 +1,4 @@
-FROM ubuntu:12.04
+FROM ubuntu:14.04
 MAINTAINER HJay <trixism@qq.com>
 
 # Let the conatiner know that there is no tty
