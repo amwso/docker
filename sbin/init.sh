@@ -54,7 +54,10 @@ check_dir
 
 # Forward SIGTERM to supervisord process
 _term() {
-    kill -TERM $child 2>/dev/null
+	while kill -0 $child >/dev/null 2>&1
+	do
+		kill -TERM $child 2>/dev/null
+	done
 }
 trap _term 15
 exec /usr/bin/supervisord -n &
