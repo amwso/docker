@@ -8,7 +8,7 @@ docker
 ```
 $ git clone https://github.com/amwso/docker.git
 $ cd docker
-$ sudo docker build --no-cache -t="myapp/ubuntu1204" .
+$ sudo docker build --no-cache -t="myapp/lnmp" .
 ```
 
 ## Usage
@@ -16,6 +16,6 @@ $ sudo docker build --no-cache -t="myapp/ubuntu1204" .
 
 ```bash
 $ mkdir /data
-$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d -t -i myapp/ubuntu1204 /bin/bash /root/sbin/init.sh
+$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d -t -i myapp/lnmp /bin/bash /root/sbin/init.sh
 ```
 
