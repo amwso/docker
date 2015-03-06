@@ -57,6 +57,7 @@ _term() {
 	while kill -0 $child >/dev/null 2>&1
 	do
 		kill -TERM $child 2>/dev/null
+		sleep 1
 	done
 }
 trap _term 15
