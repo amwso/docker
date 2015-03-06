@@ -8,7 +8,7 @@ docker
 ```
 $ git clone https://github.com/amwso/docker.git
 $ cd docker
-$ sudo docker build -t="myapp/ubuntu1204" .
+$ sudo docker build --no-cache -t="myapp/ubuntu1204" .
 ```
 
 ## Usage
