@@ -1,0 +1,11 @@
+/data/log/php-fpm/*.log {
+	weekly
+	missingok
+	rotate 12
+	compress
+	delaycompress
+	notifempty
+	postrotate
+		[ -s /data/log/php-fpm/php-fpm.pid ] && kill -USR1 `cat /data/log/php-fpm/php-fpm.pid`
+	endscript
+}
