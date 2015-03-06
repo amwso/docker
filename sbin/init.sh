@@ -26,15 +26,17 @@ check_dir () {
 	[[ ! -d $LOG_FILE_PATH/nginx ]] && mkdir -p $LOG_FILE_PATH/nginx
 	[[ ! -d $LOG_FILE_PATH/php-fpm ]] && mkdir -p $LOG_FILE_PATH/php-fpm
 	[[ ! -d $LOG_FILE_PATH/mysql ]] && mkdir -p $LOG_FILE_PATH/mysql
-	[[ ! -d $CONF_PATH ]] && mkdir -p $CONF_PATH
+	[[ ! -d $CONF_PATH ]] && cp -rf /root/template/conf $CONF_PATH
+	[[ ! -f $CONF_PATH/supervisor_service.conf ]] && cp -f /root/template/conf/supervisor_service.conf $CONF_PATH/supervisor_service.conf
 	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
+	[[ ! -d /var/run/mysqld ]] && mkdir /var/run/mysqld
 	[[ ! -d $TEMP_PATH ]] && mkdir -p $TEMP_PATH && chmod 1777 $TEMP_PATH
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
 }
 
 check_sys_user () {
 	USER_ID=5000
-	for USER in user_mysql user_web user_app ; do
+	for USER in user_web user_app user_mysql ; do
 		if  id -u $USER >/dev/null 2>&1  ; then
 			# TODO: notice user exists
 			true
@@ -46,15 +48,8 @@ check_sys_user () {
 	done
 }
 
-update_config_file () {
-	/bin/cp /data/conf/supervisor_service.conf /etc/supervisor/conf.d/
-	/bin/cp /data/conf/my.cnf /etc/mysql/my.cnf
-	ln -s /data/mysql/mysqld.sock /var/run/mysqld/mysqld.sock
-}
-
 check_sys_user
 check_dir
-update_config_file
 
 # Forward SIGTERM to supervisord process
 _term() {
