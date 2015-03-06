@@ -30,6 +30,7 @@ check_dir () {
 	[[ ! -f $CONF_PATH/supervisor_service.conf ]] && cp -f /root/template/conf/supervisor_service.conf $CONF_PATH/supervisor_service.conf
 	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
 	[[ ! -d /var/run/mysqld ]] && mkdir /var/run/mysqld
+	chown user_mysql /var/run/mysqld
 	[[ ! -d $TEMP_PATH ]] && mkdir -p $TEMP_PATH && chmod 1777 $TEMP_PATH
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
 }
