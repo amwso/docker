@@ -24,6 +24,7 @@ mysql_init () {
 }
 
 check_dir () {
+	# build dir
 	[[ ! -d $LOG_FILE_PATH/supervisor ]] && mkdir -p $LOG_FILE_PATH/supervisor
 	[[ ! -d $LOG_FILE_PATH/nginx ]] && mkdir -p $LOG_FILE_PATH/nginx
 	[[ ! -d $LOG_FILE_PATH/php-fpm ]] && mkdir -p $LOG_FILE_PATH/php-fpm
@@ -38,6 +39,9 @@ check_dir () {
 	[[ ! -d $TEMP_PATH ]] && mkdir -p $TEMP_PATH && chmod 1777 $TEMP_PATH
 	[[ ! -d $TEMP_PATH/session ]] && mkdir -p $TEMP_PATH/session && chmod 1733 $TEMP_PATH/session
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
+	
+	# remove nginx socket
+	[[ -e $LOG_FILE_PATH/nginx/site.sock ]] && rm $LOG_FILE_PATH/nginx/site.sock
 }
 
 check_sys_user () {
