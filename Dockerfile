@@ -27,5 +27,7 @@ RUN apt-get -y install nginx-extras \
 ADD sbin /root/sbin
 ADD template /root/template
 RUN mv /etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf.default ; \
- cp /root/template/conf/supervisord.conf /etc/supervisor/supervisord.conf
+ cp /root/template/conf/supervisord.conf /etc/supervisor/supervisord.conf ; \
+ cp /root/template/conf/crontab /etc/crontab ; \
+ cp /root/template/conf/cron.d/anacron /etc/cron.d/anacron ;
 
