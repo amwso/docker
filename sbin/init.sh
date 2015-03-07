@@ -60,7 +60,10 @@ check_sys_user () {
 
 check_sys_user
 check_dir
+# load crontab
 crontab /data/conf/crontab.root
+# run anacron once
+anacron -t /data/conf/anacrontab -S /data/var/spool/anacron -n -d
 
 # Forward SIGTERM to supervisord process
 _term() {
