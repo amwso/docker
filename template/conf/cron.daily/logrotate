@@ -11,4 +11,4 @@ done >> status.clean
 mv status.clean status
 
 test -x /usr/sbin/logrotate || exit 0
-/usr/sbin/logrotate -s /data/var/lib/logrotate /data/conf/logrotate.conf
+/usr/sbin/logrotate -s /data/var/lib/logrotate/status /data/conf/logrotate.conf
