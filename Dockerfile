@@ -22,7 +22,7 @@ RUN apt-get -y install nginx-extras \
  curl git unzip pwgen supervisor anacron \
  mysql-server mysql-client ; \
  apt-get clean ; \
- touch /etc/cron.allow 
+ echo root > /etc/cron.allow 
 
 ADD sbin /root/sbin
 ADD template /root/template
