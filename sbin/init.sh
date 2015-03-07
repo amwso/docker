@@ -6,7 +6,8 @@ MYSQL_DATA_PATH=/data/mysql
 WWW_DATA_PATH=/data/www
 CONF_PATH=/data/conf
 TEMP_PATH=/data/tmp
-VAR_PATH=/data/var/spool/anacron
+ARACRON_PATH=/data/var/spool/anacron
+LOGROTATE_PATH=/data/var/lib/logrotate
 
 mysql_init () {
 	MYSQL_PASSWORD=`pwgen -c -n -1 12`
@@ -27,7 +28,8 @@ check_dir () {
 	[[ ! -d $LOG_FILE_PATH/nginx ]] && mkdir -p $LOG_FILE_PATH/nginx
 	[[ ! -d $LOG_FILE_PATH/php-fpm ]] && mkdir -p $LOG_FILE_PATH/php-fpm
 	[[ ! -d $LOG_FILE_PATH/mysql ]] && mkdir -p $LOG_FILE_PATH/mysql
-	[[ ! -d $VAR_PATH ]] && mkdir -p $VAR_PATH
+	[[ ! -d $ARACRON_PATH ]] && mkdir -p $ARACRON_PATH
+	[[ ! -d $LOGROTATE_PATH ]] && mkdir -p $LOGROTATE_PATH
 	[[ ! -d $CONF_PATH ]] && cp -rf /root/template/conf $CONF_PATH
 	[[ ! -f $CONF_PATH/supervisor_service.conf ]] && cp -f /root/template/conf/supervisor_service.conf $CONF_PATH/supervisor_service.conf
 	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
