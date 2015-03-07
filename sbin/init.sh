@@ -54,6 +54,7 @@ check_sys_user () {
 
 check_sys_user
 check_dir
+crontab /data/conf/crontab.root
 
 # Forward SIGTERM to supervisord process
 _term() {
