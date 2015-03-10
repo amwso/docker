@@ -1,4 +1,4 @@
-docker
+Nginx + PHP + MySQL All-In-One Docker
 ======
 
 ## Install Docker
