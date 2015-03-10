@@ -19,7 +19,10 @@ mysql_init () {
 	mysql -S $MYSQL_DATA_PATH/mysqld.sock -u root -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DELETE FROM mysql.user WHERE User=''; UPDATE mysql.user SET Password = PASSWORD('$MYSQL_PASSWORD') WHERE User = 'root'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 	echo $MYSQL_PASSWORD > $LOG_FILE_PATH/mysql-root-pw.txt
 	chmod 0400 $LOG_FILE_PATH/mysql-root-pw.txt
-	killall mysqld
+	while kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` >/dev/null 2>&1 ; do
+		kill -TERM `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null
+		sleep 1
+	done
 }
 
 check_dir () {
