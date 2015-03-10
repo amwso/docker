@@ -55,3 +55,14 @@ enter an existing instance
 ```bash
 $ sudo docker exec -ti myapp /bin/bash
 ```
+
+directory & path, for example /data/myapp
+
+```
+/data/myapp/conf - all config files
+/data/myapp/log - all log files
+/data/myapp/mysql - mysql data
+/data/myapp/tmp - temp and php session
+/data/myapp/var - variables
+/data/myapp/www - nginx web root
+```
