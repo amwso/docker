@@ -5,9 +5,7 @@ MAINTAINER HJay <trixism@qq.com>
 ENV DEBIAN_FRONTEND noninteractive
 
 # Keep upstart from complaining
-RUN dpkg-divert --local --rename --add /sbin/initctl ; \
- ln -sf /bin/true /sbin/initctl ; \
- cp /root/.bashrc /root/.profile / ; \
+RUN cp /root/.bashrc /root/.profile / ; \
  echo 'HISTFILE=/dev/null' >> /.bashrc ; \
  HISTSIZE=0 ; \
  sed -i "s/archive.ubuntu.com/cn.archive.ubuntu.com/g" /etc/apt/sources.list ; \
