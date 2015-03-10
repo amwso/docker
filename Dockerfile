@@ -9,7 +9,6 @@ RUN cp /root/.bashrc /root/.profile / ; \
  echo 'HISTFILE=/dev/null' >> /.bashrc ; \
  HISTSIZE=0 ; \
  sed -i "s/archive.ubuntu.com/cn.archive.ubuntu.com/g" /etc/apt/sources.list ; \
- sed -i "s/archive.ubuntu.com/cn.archive.ubuntu.com/g" /etc/apt/sources.list.d/proposed.list ; \
  apt-get update ; \
  apt-get -y upgrade ; \
  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime ; \
