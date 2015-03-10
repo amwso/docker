@@ -13,6 +13,13 @@ $ sudo yum install docker-io device-mapper-event-libs git
 $ sudo /etc/init.d/docker start
 ```
 
+### CentOS 7 quick install
+
+```bash
+$ sudo yum install docker
+$ sudo systemctl start docker
+```
+
 ### Ubuntu 14.04 quick install
 
 ```bash
