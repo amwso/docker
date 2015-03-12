@@ -14,15 +14,23 @@ mysql_init () {
 	mkdir $MYSQL_DATA_PATH
 	chown user_mysql:user_mysql $MYSQL_DATA_PATH
 	mysql_install_db --defaults-file=/dev/null --datadir=$MYSQL_DATA_PATH --user=user_mysql
-	mysqld --defaults-file=/dev/null --basedir=/usr --datadir=$MYSQL_DATA_PATH --log-error=/dev/null --user=user_mysql --pid-file=$MYSQL_DATA_PATH/mysqld.pid --socket=$MYSQL_DATA_PATH/mysqld.sock --skip-networking --plugin-dir=/usr/lib/mysql/plugin &
+	mysqld --defaults-file=/dev/null --basedir=/usr --datadir=$MYSQL_DATA_PATH --log-error=/dev/null --user=user_mysql --pid-file=$MYSQL_DATA_PATH/mysqld.pid --socket=$MYSQL_DATA_PATH/mysqld.sock --skip-networking --plugin-dir=/usr/lib/mysql/plugin --port=3306 &
 	sleep 2;
 	mysql -S $MYSQL_DATA_PATH/mysqld.sock -u root -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DELETE FROM mysql.user WHERE User=''; UPDATE mysql.user SET Password = PASSWORD('$MYSQL_PASSWORD') WHERE User = 'root'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 	echo $MYSQL_PASSWORD > $LOG_FILE_PATH/mysql-root-pw.txt
 	chmod 0400 $LOG_FILE_PATH/mysql-root-pw.txt
-	while kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` >/dev/null 2>&1 ; do
-		kill -TERM `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null
+
+	# shutdown mysql	
+	kill -15 `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null
+	for i in 1 2 3 4 5 6 7 8 9 10; do
+		kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` || break
 		sleep 1
 	done
+	while kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` >/dev/null 2>&1 ; do
+		kill -9 `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null
+		sleep 1
+	done
+
 }
 
 check_dir () {
