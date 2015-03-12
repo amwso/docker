@@ -14,8 +14,14 @@ mysql_init () {
 	mkdir $MYSQL_DATA_PATH
 	chown user_mysql:user_mysql $MYSQL_DATA_PATH
 	mysql_install_db --defaults-file=/dev/null --datadir=$MYSQL_DATA_PATH --user=user_mysql
-	mysqld --defaults-file=/dev/null --basedir=/usr --datadir=$MYSQL_DATA_PATH --log-error=/dev/null --user=user_mysql --pid-file=$MYSQL_DATA_PATH/mysqld.pid --socket=$MYSQL_DATA_PATH/mysqld.sock --skip-networking --plugin-dir=/usr/lib/mysql/plugin --port=3306 &
-	sleep 2;
+	mysqld --defaults-file=/dev/null --basedir=/usr --datadir=$MYSQL_DATA_PATH --log-error=/dev/null --user=user_mysql --pid-file=$MYSQL_DATA_PATH/mysqld.pid --socket=$MYSQL_DATA_PATH/mysqld.sock --skip-networking --plugin-dir=/usr/lib/mysql/plugin &
+	
+	# wait to start
+	while ! mysqladmin -S $MYSQL_DATA_PATH/mysqld.sock ping >/dev/null 2>&1 ; do
+		sleep 1
+	done
+	
+	# change password, drop default db and user
 	mysql -S $MYSQL_DATA_PATH/mysqld.sock -u root -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DELETE FROM mysql.user WHERE User=''; UPDATE mysql.user SET Password = PASSWORD('$MYSQL_PASSWORD') WHERE User = 'root'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 	echo $MYSQL_PASSWORD > $LOG_FILE_PATH/mysql-root-pw.txt
 	chmod 0400 $LOG_FILE_PATH/mysql-root-pw.txt
