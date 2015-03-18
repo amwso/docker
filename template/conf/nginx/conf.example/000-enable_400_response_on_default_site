@@ -1,5 +1,5 @@
 server {
-    include /data/conf/nginx/nginx_site_listen_port.conf;
+    include nginx_site_listen_port.conf;
     server_name "";
 
     location / {
