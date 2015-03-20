@@ -56,6 +56,12 @@ enter an existing instance
 $ sudo docker exec -ti myapp /bin/bash
 ```
 
+reload a service
+
+```bash
+$ sudo docker exec myapp /bin/bash -c "supervisorctl kill HUP nginx"
+```
+
 directory & path, for example /data/myapp
 
 ```

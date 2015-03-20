@@ -16,9 +16,11 @@ RUN cp /root/.bashrc /root/.profile / ; \
 
 RUN apt-get -y install nginx-extras \
  php5-cli php5-curl php5-fpm php5-json php5-mcrypt php5-mysql php5-sqlite php5-xmlrpc php5-xsl php5-gd php-apc \
- curl git unzip pwgen supervisor anacron \
+ curl git unzip pwgen anacron \
+ supervisor python-setuptools \
  mysql-server mysql-client ; \
  apt-get clean ; \
+ easy_install mr.laforge ; \
  echo root > /etc/cron.allow 
 
 ADD sbin /root/sbin
