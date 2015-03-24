@@ -62,6 +62,12 @@ reload a service
 $ sudo docker exec myapp /bin/bash -c "supervisorctl kill HUP nginx"
 ```
 
+reset mysql root password, write new password in log/mysql-root-pw.txt
+
+```bash
+$ sudo docker exec myapp /root/sbin/tools/reset_mysql_root_passwd.sh
+```
+
 directory & path, for example /data/myapp
 
 ```
