@@ -77,4 +77,6 @@ directory & path, for example /data/myapp
 /data/myapp/tmp - temp and php session
 /data/myapp/var - variables
 /data/myapp/www - nginx web root
+http://localhost/nginx_status - nginx status page
+http://localhost/php_status - php status page
 ```
