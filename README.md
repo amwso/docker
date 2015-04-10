@@ -33,12 +33,20 @@ $ sudo apt-get update
 $ sudo apt-get install lxc-docker git
 ```
 
-## Install image 
+## get image 
+
+### build manually
 
 ```bash
 $ git clone https://github.com/amwso/docker.git
 $ cd docker
-$ sudo docker build --no-cache -t="myapp/lnmp" .
+$ sudo docker build --no-cache -t="amwso/docker" .
+```
+
+### pull directly
+
+```bash
+$ sudo docker pull amwso/docker
 ```
 
 ## Usage 
@@ -47,7 +55,7 @@ Run instance
 
 ```bash
 $ mkdir /data
-$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d -t -i myapp/lnmp /bin/bash /root/sbin/init.sh
+$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d -t -i amwso/docker /bin/bash /root/sbin/init.sh
 ```
 
 enter an existing instance
