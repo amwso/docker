@@ -16,7 +16,7 @@ $ sudo /etc/init.d/docker start
 ### CentOS 7 quick install
 
 ```bash
-$ sudo yum install docker git
+$ sudo yum install docker device-mapper-event-libs git
 $ sudo systemctl start docker
 ```
 
