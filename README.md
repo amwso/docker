@@ -55,7 +55,7 @@ Run instance
 
 ```bash
 $ mkdir /data
-$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d -t -i amwso/docker /bin/bash /root/sbin/init.sh
+$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d -t -i amwso/docker
 ```
 
 enter an existing instance

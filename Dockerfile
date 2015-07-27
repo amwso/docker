@@ -31,3 +31,4 @@ RUN mv /etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf.default
  cp /root/template/conf/cron.d/anacron /etc/cron.d/anacron ; \
  rm /etc/cron.d/php5
 
+CMD ["/bin/bash","/root/sbin/init.sh"]
