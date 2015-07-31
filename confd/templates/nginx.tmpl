@@ -1,0 +1,15 @@
+{{range $dir := lsdir "/vhost"}}
+upstream {{base $dir}} {
+    {{$custdir := printf "/vhost/%s/backend/*" $dir}}{{range gets $custdir}}
+    server {{$data := json .Value}}{{$data.HostIp}}:{{$data.HostPort}};
+    {{end}}
+}
+
+server {
+    listen 80;
+    server_name {{base $dir}}.test.hostdemo.cn;
+    location / {
+        proxy_pass http://{{base $dir}};
+    }
+}
+{{end}}

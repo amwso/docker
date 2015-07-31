@@ -1,0 +1,14 @@
+# set up confd on boot
+
+description "Set up confd on boot"
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+pre-start script
+    start-stop-daemon --start --quiet --background --pidfile /var/run/confd.pid -m --exec /usr/local/bin/confd
+end script
+
+post-stop script
+    start-stop-daemon --stop --signal TERM --quiet --pidfile /var/run/confd.pid --exec /usr/local/bin/confd
+end script

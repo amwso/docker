@@ -1,0 +1,16 @@
+# set up etcd on boot
+
+description "Set up etcd on boot"
+
+start on runlevel [2345]
+stop on runlevel [06]
+
+pre-start script
+    export ETCD_NAME=localhost
+    export ETCD_DATA_DIR=/data/etcd/localhost
+    start-stop-daemon --start --quiet --background --pidfile /var/run/etcd.pid -m --exec /usr/local/bin/etcd
+end script
+
+post-stop script
+    start-stop-daemon --stop --signal TERM --quiet --pidfile /var/run/etcd.pid --exec /usr/local/bin/etcd
+end script

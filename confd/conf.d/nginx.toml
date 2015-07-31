@@ -1,0 +1,14 @@
+[template]
+
+src = "nginx.tmpl"
+
+dest = "/etc/lb_nginx/nginx_site.conf"
+
+keys = [ "/vhost" ]
+
+# File ownership and mode information
+owner = "root"
+mode = "0644"
+
+check_cmd = "/usr/bin/docker exec lb_nginx nginx -t"
+reload_cmd = "/usr/bin/docker exec lb_nginx nginx -s reload"

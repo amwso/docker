@@ -9,6 +9,8 @@ RUN cp /root/.bashrc /root/.profile / ; \
  echo 'HISTFILE=/dev/null' >> /.bashrc ; \
  HISTSIZE=0 ; \
  sed -i "s/archive.ubuntu.com/cn.archive.ubuntu.com/g" /etc/apt/sources.list ; \
+ echo 'deb http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/sources.list ; \
+ echo 'deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/sources.list ; \
  apt-get update ; \
  apt-get -y upgrade ; \
  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime ; \
@@ -16,6 +18,7 @@ RUN cp /root/.bashrc /root/.profile / ; \
 
 RUN apt-get -y install nginx-extras \
  php5-cli php5-curl php5-fpm php5-json php5-mcrypt php5-mysql php5-sqlite php5-xmlrpc php5-xsl php5-gd php-apc \
+ phpmyadmin \
  curl git unzip pwgen anacron \
  supervisor python-setuptools \
  mysql-server mysql-client ; \
@@ -23,8 +26,8 @@ RUN apt-get -y install nginx-extras \
  easy_install mr.laforge ; \
  echo root > /etc/cron.allow 
 
-ADD sbin /root/sbin
-ADD template /root/template
+COPY ./sbin /root/sbin
+COPY ./template /root/template
 RUN mv /etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf.default ; \
  cp /root/template/conf/supervisord.conf /etc/supervisor/supervisord.conf ; \
  cp /root/template/conf/crontab /etc/crontab ; \
