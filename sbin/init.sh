@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-LOG_FILE_PATH=/data/log
+LOG_FILE_PATH=/data/var/log
 MYSQL_DATA_PATH=/data/mysql
 WWW_DATA_PATH=/data/www
 CONF_PATH=/data/conf
@@ -12,9 +12,9 @@ LOGROTATE_PATH=/data/var/lib/logrotate
 mysql_init () {
 	MYSQL_PASSWORD=`pwgen -c -n -1 12`
 	mkdir $MYSQL_DATA_PATH
-	chown user_mysql:user_mysql $MYSQL_DATA_PATH
-	mysql_install_db --defaults-file=/dev/null --datadir=$MYSQL_DATA_PATH --user=user_mysql
-	mysqld --defaults-file=/dev/null --basedir=/usr --datadir=$MYSQL_DATA_PATH --log-error=/dev/null --user=user_mysql --pid-file=$MYSQL_DATA_PATH/mysqld.pid --socket=$MYSQL_DATA_PATH/mysqld.sock --skip-networking --plugin-dir=/usr/lib/mysql/plugin &
+	chown user_db:user_db $MYSQL_DATA_PATH
+	mysql_install_db --defaults-file=/dev/null --datadir=$MYSQL_DATA_PATH --user=user_db
+	mysqld --defaults-file=/dev/null --basedir=/usr --datadir=$MYSQL_DATA_PATH --log-error=/dev/null --user=user_db --pid-file=$MYSQL_DATA_PATH/mysqld.pid --socket=$MYSQL_DATA_PATH/mysqld.sock --skip-networking --plugin-dir=/usr/lib/mysql/plugin &
 	
 	# wait to start
 	while ! mysqladmin -S $MYSQL_DATA_PATH/mysqld.sock ping >/dev/null 2>&1 ; do
@@ -49,12 +49,15 @@ check_dir () {
 	[[ ! -d $LOGROTATE_PATH ]] && mkdir -p $LOGROTATE_PATH
 	[[ ! -d $CONF_PATH ]] && cp -rf /root/template/conf $CONF_PATH
 	[[ ! -f $CONF_PATH/supervisor_service.conf ]] && cp -f /root/template/conf/supervisor_service.conf $CONF_PATH/supervisor_service.conf
-	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
-	[[ ! -d /var/run/mysqld ]] && mkdir /var/run/mysqld
-	chown user_mysql /var/run/mysqld
-	[[ ! -d $TEMP_PATH ]] && mkdir -p $TEMP_PATH && chmod 1777 $TEMP_PATH
-	[[ ! -d $TEMP_PATH/session ]] && mkdir -p $TEMP_PATH/session && chmod 1733 $TEMP_PATH/session
+	[[ ! -d $TEMP_PATH ]] && mkdir -p $TEMP_PATH
+	chmod 1777 $TEMP_PATH
+	[[ ! -d $TEMP_PATH/session ]] && mkdir -p $TEMP_PATH/session
+	chmod 1733 $TEMP_PATH/session
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
+	[[ ! -d /var/run/mysqld ]] && mkdir /var/run/mysqld
+	[[ ! -d /var/run/php-fpm ]] && mkdir /var/run/php-fpm
+	chown user_db /var/run/mysqld
+	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
 	
 	# remove nginx socket
 	[[ -e $LOG_FILE_PATH/nginx/site.sock ]] && rm $LOG_FILE_PATH/nginx/site.sock
@@ -62,7 +65,7 @@ check_dir () {
 
 check_sys_user () {
 	USER_ID=5000
-	for USER in user_web user_app user_mysql ; do
+	for USER in user_web user_app user_db ; do
 		if  id -u $USER >/dev/null 2>&1  ; then
 			# TODO: notice user exists
 			true
@@ -74,7 +77,7 @@ check_sys_user () {
 	done
 }
 
-check_sys_user
+#check_sys_user
 check_dir
 # load crontab
 crontab /data/conf/crontab.root

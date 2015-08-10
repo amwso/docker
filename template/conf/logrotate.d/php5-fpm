@@ -1,4 +1,4 @@
-/data/log/php-fpm/*.log {
+/data/var/log/php-fpm/*.log {
 	weekly
 	missingok
 	rotate 12
@@ -6,6 +6,6 @@
 	delaycompress
 	notifempty
 	postrotate
-		[ -s /data/log/php-fpm/php-fpm.pid ] && kill -USR1 `cat /data/log/php-fpm/php-fpm.pid`
+		[ -s /data/var/log/php-fpm/php-fpm.pid ] && kill -USR1 `cat /data/var/log/php-fpm/php-fpm.pid`
 	endscript
 }

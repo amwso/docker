@@ -21,7 +21,14 @@ validate_vhost_name () {
 do_create () {
     validate_vhost_name $1
     
-    docker run -d --name $1 --hostname $1 -p ${PUB_ADDR} -v ${HOST_DIR}/$1:${USER_DIR} ${IMG_NAME}
+    docker run -d --name $1 --hostname $1 -p ${PUB_ADDR} --read-only \
+    -v ${HOST_DIR}/$1:${USER_DIR} \
+    -v ${HOST_DIR}/$1/tmp:/tmp \
+    -v ${HOST_DIR}/$1/tmp:/var/tmp \
+    -v ${HOST_DIR}/$1/var/run:/run \
+    -v ${HOST_DIR}/$1/var/log:/var/log \
+    -v ${HOST_DIR}/$1/var/lib/nginx:/var/lib/nginx \
+    ${IMG_NAME}
     backend_addr=$(docker inspect -f '{{ json (index (index .NetworkSettings.Ports "80/tcp") 0) }}' $1)
     [ -n "$backend_addr" ] && etcdctl set /vhost/$1/backend/$(hostname -s) $backend_addr
     echo "create done."

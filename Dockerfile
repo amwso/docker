@@ -34,4 +34,13 @@ RUN mv /etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf.default
  cp /root/template/conf/cron.d/anacron /etc/cron.d/anacron ; \
  rm /etc/cron.d/php5
 
+RUN \
+ groupadd -g 5000 -r user_app ; \
+ useradd -l -M -r  -s /usr/sbin/nologin -u 5000 -g 5000 user_app ; \
+ groupadd -g 5001 -r user_db ; \
+ useradd -l -M -r  -s /usr/sbin/nologin -u 5001 -g 5001 user_db ; \
+ groupadd -g 5002 -r user_web ; \
+ useradd -l -M -r  -s /usr/sbin/nologin -u 5002 -g 5002 user_web ; \
+true
+
 CMD ["/bin/bash","/root/sbin/init.sh"]
