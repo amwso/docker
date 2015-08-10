@@ -22,7 +22,7 @@ mysql_init () {
 	done
 	
 	# change password, drop default db and user
-	mysql -S $MYSQL_DATA_PATH/mysqld.sock -u root -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DELETE FROM mysql.user WHERE User=''; UPDATE mysql.user SET Password = PASSWORD('$MYSQL_PASSWORD') WHERE User = 'root'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+	mysql -S $MYSQL_DATA_PATH/mysqld.sock -u root -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DELETE FROM mysql.user WHERE User=''; CREATE DATABASE IF NOT EXISTS user_db; GRANT ALL ON user_db.* to 'user_db'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD'; UPDATE mysql.user SET Password = PASSWORD('$MYSQL_PASSWORD') WHERE User = 'root'; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 	echo $MYSQL_PASSWORD > $LOG_FILE_PATH/mysql-root-pw.txt
 	chmod 0400 $LOG_FILE_PATH/mysql-root-pw.txt
 
@@ -44,6 +44,7 @@ check_dir () {
 	[[ ! -d $LOG_FILE_PATH/supervisor ]] && mkdir -p $LOG_FILE_PATH/supervisor
 	[[ ! -d $LOG_FILE_PATH/nginx ]] && mkdir -p $LOG_FILE_PATH/nginx
 	[[ ! -d $LOG_FILE_PATH/php-fpm ]] && mkdir -p $LOG_FILE_PATH/php-fpm
+	chown user_app $LOG_FILE_PATH/php-fpm
 	[[ ! -d $LOG_FILE_PATH/mysql ]] && mkdir -p $LOG_FILE_PATH/mysql
 	[[ ! -d $ARACRON_PATH ]] && mkdir -p $ARACRON_PATH
 	[[ ! -d $LOGROTATE_PATH ]] && mkdir -p $LOGROTATE_PATH
