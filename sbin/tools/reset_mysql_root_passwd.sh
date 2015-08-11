@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PASSWD_FILE_PATH=/data/log/mysql-root-pw.txt
+PASSWD_FILE_PATH=/data/var/log/mysql-root-pw.txt
 MYSQL_CONF_PATH=/data/conf/my.cnf
 
 MYSQL_PASSWORD=`pwgen -c -n -1 12`
