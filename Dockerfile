@@ -43,4 +43,6 @@ RUN \
  useradd -l -M -r  -s /usr/sbin/nologin -u 5002 -g 5002 user_web ; \
 true
 
+EXPOSE 80
+
 CMD ["/bin/bash","/root/sbin/init.sh"]
