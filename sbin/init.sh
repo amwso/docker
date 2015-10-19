@@ -11,7 +11,7 @@ LOGROTATE_PATH=/data/var/lib/logrotate
 PHP_SOCK_PATH=/data/var/run/php-fpm
 
 mysql_init () {
-	MYSQL_PASSWORD=`pwgen -c -n -1 12`
+	MYSQL_PASSWORD="${MYSQL_PASSWORD:-`pwgen -c -n -1 12`}"
 	mkdir $MYSQL_DATA_PATH
 	chown user_db:user_db $MYSQL_DATA_PATH
 	mysql_install_db --defaults-file=/dev/null --datadir=$MYSQL_DATA_PATH --user=user_db
@@ -56,9 +56,10 @@ check_dir () {
 	[[ ! -d $TEMP_PATH/session ]] && mkdir -p $TEMP_PATH/session
 	chmod 1733 $TEMP_PATH/session
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
+	[ "x$SDOCKER_DISABLE_PMA" == "x" ] && [[ ! -h $WWW_DATA_PATH/pma ]] && ln -s /usr/share/phpmyadmin $WWW_DATA_PATH/pma
 	[[ ! -d /var/run/mysqld ]] && mkdir /var/run/mysqld
 	[[ ! -d /var/run/php-fpm ]] && mkdir /var/run/php-fpm
-	[[ ! -d  $PHP_SOCK_PATH ]] && mkdir $PHP_SOCK_PATH
+	[[ ! -d  $PHP_SOCK_PATH ]] && mkdir -p $PHP_SOCK_PATH
 	chown user_db /var/run/mysqld
 	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
 	
