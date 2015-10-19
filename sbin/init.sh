@@ -8,6 +8,7 @@ CONF_PATH=/data/conf
 TEMP_PATH=/data/tmp
 ARACRON_PATH=/data/var/spool/anacron
 LOGROTATE_PATH=/data/var/lib/logrotate
+PHP_SOCK_PATH=/data/var/run/php-fpm
 
 mysql_init () {
 	MYSQL_PASSWORD=`pwgen -c -n -1 12`
@@ -57,6 +58,7 @@ check_dir () {
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
 	[[ ! -d /var/run/mysqld ]] && mkdir /var/run/mysqld
 	[[ ! -d /var/run/php-fpm ]] && mkdir /var/run/php-fpm
+	[[ ! -d  $PHP_SOCK_PATH ]] && mkdir $PHP_SOCK_PATH
 	chown user_db /var/run/mysqld
 	[[ ! -d $MYSQL_DATA_PATH ]] && mysql_init
 	
