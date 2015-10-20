@@ -4,7 +4,6 @@ MAINTAINER HJay <trixism@qq.com>
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-# Keep upstart from complaining
 RUN cp /root/.bashrc /root/.profile / ; \
  echo 'HISTFILE=/dev/null' >> /.bashrc ; \
  HISTSIZE=0 ; \
@@ -24,6 +23,7 @@ RUN apt-get -y install nginx-extras \
  mysql-server mysql-client ; \
  apt-get clean ; \
  easy_install mr.laforge ; \
+ php5enmod mcrypt ; \
  echo root > /etc/cron.allow 
 
 COPY ./sbin /root/sbin

@@ -44,11 +44,24 @@ $ sudo docker pull amwso/docker
 
 ## Usage 
 
-Run instance
+Run instance with random mysql root password
 
 ```bash
-$ mkdir /data
-$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d -t -i amwso/docker
+$ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d amwso/docker
+```
+
+Run instance with specified mysql root password
+
+```bash
+$ sudo docker run -h localhost -p=80:80 --name myapp -e MYSQL_PASSWORD=mySecret -d amwso/docker
+```
+
+PHPMyAdmin login path `http://localhost/pma`
+
+pass `-e DOCKER_DISABLE_PMA=yes` to disable PHPMyAdmin
+
+```bash
+$ sudo docker run -h localhost -p=80:80 --name myapp -e DOCKER_DISABLE_PMA=yes -d amwso/docker
 ```
 
 enter an existing instance
