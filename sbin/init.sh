@@ -56,7 +56,7 @@ check_dir () {
 	[[ ! -d $TEMP_PATH/session ]] && mkdir -p $TEMP_PATH/session
 	chmod 1733 $TEMP_PATH/session
 	[[ ! -d $WWW_DATA_PATH ]] && mkdir $WWW_DATA_PATH && chown user_app:user_app $WWW_DATA_PATH
-	[ "x$SDOCKER_DISABLE_PMA" == "x" ] && [[ ! -h $WWW_DATA_PATH/pma ]] && ln -s /usr/share/phpmyadmin $WWW_DATA_PATH/pma
+	[ "x$DOCKER_DISABLE_PMA" == "x" ] && [[ ! -h $WWW_DATA_PATH/pma ]] && ln -s /usr/share/phpmyadmin $WWW_DATA_PATH/pma
 	[[ ! -d /var/run/mysqld ]] && mkdir /var/run/mysqld
 	[[ ! -d /var/run/php-fpm ]] && mkdir /var/run/php-fpm
 	[[ ! -d  $PHP_SOCK_PATH ]] && mkdir -p $PHP_SOCK_PATH
