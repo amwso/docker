@@ -44,7 +44,7 @@ $ sudo docker pull amwso/docker
 
 ## Usage 
 
-Run instance with random mysql root password
+Run instance with random mysql root password, you can find the password in `/data/var/log/mysql-root-pw.txt`.
 
 ```bash
 $ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d amwso/docker
