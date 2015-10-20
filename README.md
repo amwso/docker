@@ -64,6 +64,14 @@ pass `-e DOCKER_DISABLE_PMA=yes` to disable PHPMyAdmin
 $ sudo docker run -h localhost -p=80:80 --name myapp -e DOCKER_DISABLE_PMA=yes -d amwso/docker
 ```
 
+pass `-e DOCKER_INSTALL_WEBSHELL=mySecret` to enable webshell, `mySecret` is your shell login password
+
+webshell login path `http://localhost/shell.php`
+
+```bash
+$ sudo docker run -h localhost -p=80:80 --name myapp -e DOCKER_INSTALL_WEBSHELL=mySecret -d amwso/docker
+```
+
 enter an existing instance
 
 ```bash

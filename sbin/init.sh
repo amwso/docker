@@ -9,6 +9,8 @@ TEMP_PATH=/data/tmp
 ARACRON_PATH=/data/var/spool/anacron
 LOGROTATE_PATH=/data/var/lib/logrotate
 PHP_SOCK_PATH=/data/var/run/php-fpm
+WEBSHELL_DIR=/data/conf/webshell
+WEBSHELL_CONF=/data/conf/nginx/nginx_site_webshell
 
 mysql_init () {
 	MYSQL_PASSWORD="${MYSQL_PASSWORD:-`pwgen -c -n -1 12`}"
@@ -81,8 +83,21 @@ check_sys_user () {
 	done
 }
 
+install_webshell () {
+	if [ "x$DOCKER_INSTALL_WEBSHELL" == "x" ] ; then
+		:
+	else
+		[[ ! -d $WEBSHELL_DIR ]] && mkdir -p $WEBSHELL_DIR
+		( cd /root/thirdparty/b374k-3.2.3 ; /usr/bin/php -f index.php -- -o $WEBSHELL_DIR/shell.php -p $DOCKER_INSTALL_WEBSHELL -s -b -z gzcompress -c 9 -t default )
+		if [ -f ${WEBSHELL_CONF}.stop ] ; then
+			mv ${WEBSHELL_CONF}.stop ${WEBSHELL_CONF}.conf
+		fi
+	fi
+}
+
 #check_sys_user
 check_dir
+install_webshell
 # load crontab
 crontab /data/conf/crontab.root
 # run anacron once

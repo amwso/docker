@@ -18,7 +18,7 @@ RUN cp /root/.bashrc /root/.profile / ; \
 RUN apt-get -y install nginx-extras \
  php5-cli php5-curl php5-fpm php5-json php5-mcrypt php5-mysql php5-sqlite php5-xmlrpc php5-xsl php5-gd php-apc \
  phpmyadmin \
- curl git unzip pwgen anacron \
+ curl wget git unzip pwgen anacron \
  supervisor python-setuptools \
  mysql-server mysql-client ; \
  apt-get clean ; \
@@ -42,6 +42,12 @@ RUN \
  groupadd -g 5002 -r user_web ; \
  useradd -l -M -r  -s /usr/sbin/nologin -u 5002 -g 5002 user_web ; \
 true
+
+# webshell
+RUN \
+ mkdir -p /root/thirdparty ; \
+ curl -sSL https://github.com/b374k/b374k/archive/v3.2.3.tar.gz | tar -zxf - -C /root/thirdparty/ ; \
+ true
 
 EXPOSE 80
 
