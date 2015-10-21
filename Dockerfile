@@ -49,6 +49,12 @@ RUN \
  curl -sSL https://github.com/b374k/b374k/archive/v3.2.3.tar.gz | tar -zxf - -C /root/thirdparty/ ; \
  true
 
+# wp-cli
+RUN \
+ curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar ; \
+ chmod +x /usr/local/bin/wp ; \
+ true
+
 EXPOSE 80
 
 CMD ["/bin/bash","/root/sbin/init.sh"]

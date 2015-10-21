@@ -50,28 +50,22 @@ Run instance with random mysql root password, you can find the password in `/dat
 $ sudo docker run -h localhost -p=80:80 --name myapp -v /data/myapp:/data -d amwso/docker
 ```
 
-Run instance with specified mysql root password
+### Environmen Variables
 
-```bash
-$ sudo docker run -h localhost -p=80:80 --name myapp -e MYSQL_PASSWORD=mySecret -d amwso/docker
-```
+`MYSQL_PASSWORD=mySecret` -  set mysql root password manually
 
-PHPMyAdmin login path `http://localhost/pma`
+`DOCKER_DISABLE_PMA=yes` - disable PHPMyAdmin, PHPMyAdmin login path `http://localhost/pma`
 
-pass `-e DOCKER_DISABLE_PMA=yes` to disable PHPMyAdmin
+`DOCKER_INSTALL_WEBSHELL=mySecret` - enable webshell (disabled by default), `mySecret` is your shell login password, webshell login path is `http://localhost/shell.php`
 
-```bash
-$ sudo docker run -h localhost -p=80:80 --name myapp -e DOCKER_DISABLE_PMA=yes -d amwso/docker
-```
+`DOCKER_INSTALL_WP=yes` - install Wordpress automatically
 
-pass `-e DOCKER_INSTALL_WEBSHELL=mySecret` to enable webshell, `mySecret` is your shell login password
+`DOCKER_WP_ADMIN` - set wordpress admin user name, if not set, defaults to `admin`
 
-webshell login path `http://localhost/shell.php`
+`DOCKER_WP_PASSWORD` - set wordpress password, if not set, defaults to `password`
 
-```bash
-$ sudo docker run -h localhost -p=80:80 --name myapp -e DOCKER_INSTALL_WEBSHELL=mySecret -d amwso/docker
-```
 
+### Service & Operating
 enter an existing instance
 
 ```bash
@@ -90,15 +84,19 @@ reset mysql root password, write new password in log/mysql-root-pw.txt
 $ sudo docker exec myapp /root/sbin/tools/reset_mysql_root_passwd.sh
 ```
 
-directory & path, for example /data/myapp
+
+
+## directory & path
 
 ```
-/data/myapp/conf - all config files
-/data/myapp/log - all log files
-/data/myapp/mysql - mysql data
-/data/myapp/tmp - temp and php session
-/data/myapp/var - variables
-/data/myapp/www - nginx web root
+/data/conf - all config files
+/data/var/log - all log files
+/data//mysql - mysql data
+/data/tmp - temp and php session
+/data/var - variables
+/data/www - nginx web root
 http://localhost/nginx_status - nginx status page
 http://localhost/php_status - php status page
+http://0.0.0.0/pma/ - PHPMyAdmin
+http://0.0.0.0/shell.php - web shell (disabled by default)
 ```

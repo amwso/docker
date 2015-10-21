@@ -114,4 +114,10 @@ _term() {
 trap _term 15
 exec /usr/bin/supervisord -n &
 child=$!
+
+# post install
+if [ ! "x$DOCKER_INSTALL_WP" == "x" ] ; then
+	/root/sbin/tools/intall_wp.sh
+fi
+
 wait $child
