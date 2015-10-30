@@ -1,16 +1,17 @@
 #!/bin/bash
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-LOG_FILE_PATH=/data/var/log
-MYSQL_DATA_PATH=/data/mysql
-WWW_DATA_PATH=/data/www
-CONF_PATH=/data/conf
-TEMP_PATH=/data/tmp
-ARACRON_PATH=/data/var/spool/anacron
-LOGROTATE_PATH=/data/var/lib/logrotate
-PHP_SOCK_PATH=/data/var/run/php-fpm
-WEBSHELL_DIR=/data/conf/webshell
-WEBSHELL_CONF=/data/conf/nginx/nginx_site_webshell
+DATA_PATH=/data
+LOG_FILE_PATH=$DATA_PATH/var/log
+MYSQL_DATA_PATH=$DATA_PATH/mysql
+WWW_DATA_PATH=$DATA_PATH/www
+CONF_PATH=$DATA_PATH/conf
+TEMP_PATH=$DATA_PATH/tmp
+ARACRON_PATH=$DATA_PATH/var/spool/anacron
+LOGROTATE_PATH=$DATA_PATH/var/lib/logrotate
+PHP_SOCK_PATH=$DATA_PATH/var/run/php-fpm
+WEBSHELL_DIR=$DATA_PATH/conf/webshell
+WEBSHELL_CONF=$DATA_PATH/conf/nginx/nginx_site_webshell
 
 mysql_init () {
 	MYSQL_PASSWORD="${MYSQL_PASSWORD:-`pwgen -c -n -1 12`}"
@@ -52,6 +53,7 @@ check_dir () {
 	[[ ! -d $ARACRON_PATH ]] && mkdir -p $ARACRON_PATH
 	[[ ! -d $LOGROTATE_PATH ]] && mkdir -p $LOGROTATE_PATH
 	[[ ! -d $CONF_PATH ]] && cp -rf /root/template/conf $CONF_PATH
+	diff -q /root/sbin/tools $DATA_PATH/tools > /dev/null || cp -rf /root/sbin/tools $DATA_PATH
 	[[ ! -f $CONF_PATH/supervisor_service.conf ]] && cp -f /root/template/conf/supervisor_service.conf $CONF_PATH/supervisor_service.conf
 	[[ ! -d $TEMP_PATH ]] && mkdir -p $TEMP_PATH
 	chmod 1777 $TEMP_PATH
