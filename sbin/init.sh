@@ -101,9 +101,9 @@ install_webshell () {
 check_dir
 install_webshell
 # load crontab
-crontab /data/conf/crontab.root
+crontab $CONF_PATH/crontab.root
 # run anacron once
-anacron -t /data/conf/anacrontab -S /data/var/spool/anacron -n -d
+anacron -t $CONF_PATH/anacrontab -S $ARACRON_PATH -n -d
 
 # Forward SIGTERM to supervisord process
 _term() {
