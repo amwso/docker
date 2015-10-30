@@ -33,10 +33,10 @@ mysql_init () {
 	# shutdown mysql	
 	kill -15 `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null
 	for i in 1 2 3 4 5 6 7 8 9 10; do
-		kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` || break
+		kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null || break
 		sleep 1
 	done
-	while kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` >/dev/null 2>&1 ; do
+	while kill -0 `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null ; do
 		kill -9 `cat $MYSQL_DATA_PATH/mysqld.pid` 2>/dev/null
 		sleep 1
 	done
