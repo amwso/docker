@@ -7,9 +7,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN cp /root/.bashrc /root/.profile / ; \
  echo 'HISTFILE=/dev/null' >> /.bashrc ; \
  HISTSIZE=0 ; \
- sed -i "s/archive.ubuntu.com/cn.archive.ubuntu.com/g" /etc/apt/sources.list ; \
- echo 'deb http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/sources.list ; \
- echo 'deb-src http://cn.archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/sources.list ; \
+ echo 'deb http://archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/sources.list ; \
+ echo 'deb-src http://archive.ubuntu.com/ubuntu/ trusty multiverse' >> /etc/apt/sources.list ; \
  apt-get update ; \
  apt-get -y upgrade ; \
  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime ; \
