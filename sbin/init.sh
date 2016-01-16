@@ -47,6 +47,8 @@ check_dir () {
 	# build dir
 	[[ ! -d $LOG_FILE_PATH/supervisor ]] && mkdir -p $LOG_FILE_PATH/supervisor
 	[[ ! -d $LOG_FILE_PATH/nginx ]] && mkdir -p $LOG_FILE_PATH/nginx
+	[[ ! -d $LOG_FILE_PATH/apache2 ]] && mkdir -p $LOG_FILE_PATH/apache2
+	[[ ! -d $DATA_PATH/var/run/apache2 ]] && mkdir -p $DATA_PATH/var/run/apache2
 	[[ ! -d $LOG_FILE_PATH/php-fpm ]] && mkdir -p $LOG_FILE_PATH/php-fpm
 	chown user_app $LOG_FILE_PATH/php-fpm
 	[[ ! -d $LOG_FILE_PATH/mysql ]] && mkdir -p $LOG_FILE_PATH/mysql
